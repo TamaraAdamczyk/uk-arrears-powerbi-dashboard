@@ -106,3 +106,5 @@ Purpose
 - All credits removed
 - Positive balances preserved
 - A new, realistic arrears trend emerges
+
+## 3. Data Model
