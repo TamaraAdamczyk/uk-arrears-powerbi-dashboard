@@ -108,3 +108,191 @@ Purpose
 - A new, realistic arrears trend emerges
 
 ## 3. Data Model
+The dataset is structured using a star‑schema‑inspired model, designed to support clear, efficient analysis of arrears, payments, contacts, and demographic information.
+All tables connect through the anonymised TenancyReference, ensuring clean filter propagation and consistent reporting.
+<img width="972" height="631" alt="image" src="https://github.com/user-attachments/assets/7d7fe459-b493-4e71-8cbf-9b83bb2a92fc" />
+
+Figure 1. Star schema.
+
+The data model is built around a trusted tenancy pipeline designed to ensure that only tenancies with consistent, non‑conflicting data are included in the final analysis.
+This protects the dashboard from issues in the original system export, such as duplicated tenancy references or mismatched demographic/financial records.
+
+The model consists of:
+- Raw source tables (imported from Excel)
+- Integrity check tables (row‑count and uniqueness validation)
+- Trusted tenancy dimensions (filtered, clean tenancy lists)
+- Final reporting dimensions and facts
+
+### 3.1 Source Tables (Raw Imports)
+These tables come directly from the Excel files and represent the operational data:
+- FactArrearsActions
+- FactBalances
+- FactContacts
+- CustomerDemographics
+- PaymentType
+- PropertyHeader
+- TenancyHeader
+
+They are used as the foundation for all downstream transformations.
+
+### 3.2 Integrity Checks (Data Quality Layer)
+To prevent inaccurate reporting, each tenancy is assessed across three dimensions:
+- Demographics → must have exactly one demographic record
+- Payer Type → must have exactly one payer record
+- Property Mapping → must link to exactly one property
+- Three integrity tables are generated:
+- Integrity_DemoCounts - counts demographic rows per tenancy
+- Integrity_PayerCounts - counts payer rows per tenancy
+- Integrity_PropertyCounts - counts distinct property references per tenancy
+
+These are merged into a single table:
+
+**TenancyIntegrity**
+This table assigns the following flags:
+- DemoOK
+- PayerOK
+- PropertyOK
+- IsTrusted_Profile (DemoOK + PayerOK)
+- IsTrusted_Property (DemoOK + PayerOK + PropertyOK)
+
+Reason (diagnostic explanation for failures)
+This layer ensures that only tenancies with clean, reliable, non‑contradictory data progress into the model.
+
+### 3.3 Trusted Tenancy Dimensions
+Two filtered tenancy lists are created:
+
+**DimTenancy_Trusted_Profile**
+Tenancies with valid demographic + payer data.
+
+**DimTenancy_Trusted_Property**
+Tenancies with valid demographic + payer + property data.
+
+These dimensions act as gatekeepers for the rest of the model, ensuring that only trustworthy tenancy references are used in downstream joins.
+
+### 3.4 Cleaned Reporting Dimensions
+Using the trusted tenancy flags, two additional dimensions are created:
+
+**DimDemographics**
+Demographic attributes for tenancies where DemoOK = 1.
+
+**DimPaymentType**
+Payment type attributes for tenancies where PayerOK = 1.
+
+Both dimensions remove duplicates and exclude any tenancy failing integrity checks.
+
+### 3.5 Fact Tables
+The fact tables (arrears, balances, contacts, actions) remain structurally close to the raw imports but are filtered through the trusted tenancy dimensions to ensure:
+
+- No double‑counting
+- No mismatched demographic/financial profiles
+- No corrupted tenancy references
+
+This produces a clean, analysis‑ready star schema.
+
+**FactBalances2**
+FactBalances2
+This table contains period‑level financial balances for each tenancy. It is the core fact table used for arrears trend analysis.
+
+It includes the following fields:
+- TenancyReference - anonymised tenancy ID
+- SubaccountID - synthetic sub‑account identifier
+- PeriodEnd - reporting period end date
+- PeriodBalance - arrears/credit balance for that period (synthetic)
+- Heartland - region grouping (A, B, C)
+- FinancialPeriod - numeric period key used for date joins
+- PeriodBalance (bins) - categorised balance ranges for visualisation
+
+Purpose
+- Tracks arrears over time
+- Supports regional comparisons
+- Enables trend analysis
+- Acts as the foundation for the DimTenancy table
+- Provides the main numeric measure used across the dashboard
+
+Origin
+This table was built from the original balances spreadsheet, which contained multiple rows per tenancy (one per reporting period). Because of this, it was also used to derive the DimTenancy table by extracting a unique list of TenancyReference values.
+
+**FactArrearsActions1**
+Arrears‑related actions taken on each tenancy. Supports analysis of intervention activity and arrears management behaviour.
+
+**FactContacts3**
+Records contact attempts or interactions associated with tenancies. Used for operational insight into tenant engagement.
+
+### 3.6 Dimension Tables
+The model includes several curated dimension tables built from the raw tenancy, demographic, payment, and property data.
+These dimensions are filtered using the trusted‑tenancy logic to ensure that only valid, consistent, non‑conflicting tenancy records appear in the analytical model.
+
+#### 3.6.1 DimTenancy (Base Tenancy Dimension)
+Purpose:  
+Provides a unique list of TenancyReference values derived from the balances dataset.
+
+Key steps:
+- Extract tenancy references from FactBalances
+- Remove duplicates
+- Drop all non‑tenancy columns
+
+This table forms the starting point for all tenancy‑level joins.
+
+#### 3.6.2 DimTenancy_Trusted_Profile
+Purpose:  
+A filtered tenancy list containing only tenancies with clean demographic and payer data.
+
+Logic:
+
+Includes only tenancies where:
+- DemoOK = 1
+- PayerOK = 1
+
+Removes all diagnostic columns from the integrity process
+
+This dimension is used when demographic and payment‑type consistency is required.
+
+#### 3.6.3 DimTenancy_Trusted_Property
+Purpose:  
+A stricter tenancy list containing only tenancies with clean demographic, payer, and property mappings.
+
+Logic:
+
+Includes only tenancies where:
+- DemoOK = 1
+- PayerOK = 1
+- DistinctPropertyCount = 1
+
+Removes all diagnostic columns
+
+This dimension is used when property‑level reporting requires guaranteed one‑to‑one tenancy‑property relationships.
+
+#### 3.6.4 DimDemographics
+Purpose:  
+Provides demographic attributes for tenancies with valid demographic profiles.
+
+Logic:
+- Remove empty tenancy references
+- Deduplicate
+- Join to TenancyIntegrity
+- Keep only tenancies where DemoOK = 1
+- Remove diagnostic columns
+
+This ensures demographic reporting is based only on reliable, non‑duplicated demographic records.
+
+3.6.5 DimPaymentType
+Purpose:  
+Provides payer type information for tenancies with valid payment profiles.
+
+Logic:
+- Remove empty tenancy references
+- Join to TenancyIntegrity
+- Keep only tenancies where PayerOK = 1
+- Remove diagnostic columns
+- Deduplicate
+
+This ensures payment‑type reporting is based only on consistent payer data.
+
+3.6.6 DimPropertyHeader
+Purpose:  
+Contains property‑level attributes (e.g., property reference, address, region).
+Used for linking tenancies to their associated properties.
+
+Notes: This table is taken directly from the raw PropertyHeader file. It is typically joined using DimTenancy_Trusted_Property to ensure one‑to‑one tenancy‑property relationships
+
+
