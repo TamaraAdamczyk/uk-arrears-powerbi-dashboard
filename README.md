@@ -190,7 +190,7 @@ The fact tables (arrears, balances, contacts, actions) remain structurally close
 This produces a clean, analysis‑ready star schema.
 
 **FactBalances2**
-FactBalances2
+
 This table contains period‑level financial balances for each tenancy. It is the core fact table used for arrears trend analysis.
 
 It includes the following fields:
@@ -275,7 +275,7 @@ Logic:
 
 This ensures demographic reporting is based only on reliable, non‑duplicated demographic records.
 
-3.6.5 DimPaymentType
+#### 3.6.5 DimPaymentType
 Purpose:  
 Provides payer type information for tenancies with valid payment profiles.
 
@@ -288,7 +288,7 @@ Logic:
 
 This ensures payment‑type reporting is based only on consistent payer data.
 
-3.6.6 DimPropertyHeader
+#### 3.6.6 DimPropertyHeader
 Purpose:  
 Contains property‑level attributes (e.g., property reference, address, region).
 Used for linking tenancies to their associated properties.
