@@ -295,4 +295,73 @@ Used for linking tenancies to their associated properties.
 
 Notes: This table is taken directly from the raw PropertyHeader file. It is typically joined using DimTenancy_Trusted_Property to ensure one‑to‑one tenancy‑property relationships
 
+## 4. Dashboard Features
+The Power BI dashboard is organised into six interactive pages, each designed to explore arrears performance from a different analytical angle.
+
+### 4.1 Main Figures (Latest Regional Metrics)
+Provides a high‑level snapshot of the most recent reporting period.
+
+- Total Arrears
+- Tenancies in Arrears
+- Tenancies Clear
+- Total Tenancies
+
+Visuals include:
+- Total arrears by region
+- Median arrears by region
+- Tenancies in arrears by region
+- Latest reporting period table
+
+This page gives an immediate sense of scale, performance, and data freshness across regions.
+
+4.2 Distribution (Arrears Distribution by Region)
+Shows how arrears are distributed within the selected region.
+
+- Arrears histogram
+- Average arrears
+- Tenancies in arrears
+- % with arrears > £500
+
+This page highlights skew, concentration of low‑balance vs high‑balance cases, and overall arrears pressure.
+
+4.3 Trends (Monthly Arrears Trends)
+Shows arrears performance over time.
+
+- Monthly total arrears
+- Monthly median arrears
+- Regional breakdowns
+
+Users can compare long‑term patterns, seasonality, and region‑specific behaviour.
+
+4.4 Age & Tenancy (Demographic Arrears Patterns)
+Explores arrears by demographic characteristics.
+
+- Median arrears by age band
+- Tenancies in arrears by age band
+- Median arrears by tenancy length
+- Tenancies in arrears by tenancy length
+
+This page helps identify which customer groups experience higher arrears.
+
+4.5 Payment (Arrears by Payment Type)
+Breaks down arrears by payment method.
+
+- Total arrears by payment type
+- Median arrears by payment type
+- Tenancies in arrears by payment type
+- Payment type distribution
+
+Useful for understanding risk profiles across UC, HB, DD payers, etc.
+
+4.6 Demographic Data Quality
+Shows the completeness and reliability of demographic data.
+
+- Total vs excluded tenancies
+- % usable tenancies by region
+- Reasons for exclusion
+
+Availability of age and tenancy length
+
+This page validates the integrity‑filtered model and highlights where demographic data is strong or weak.
+
 
