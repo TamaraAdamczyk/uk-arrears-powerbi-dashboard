@@ -378,6 +378,7 @@ Region C has the lowest total arrears and tenancy volumes but still shows meanin
 
 This staggered reporting structure ensures each region’s figures reflect its freshest available data.
 
+
 <img width="1152" height="648" alt="image" src="https://github.com/user-attachments/assets/070c8175-b328-4213-a455-2f9ba93e43e1" />
 
 Figure 2. Latest regional metrics.
@@ -395,17 +396,21 @@ Region C has the lowest average arrears and the smallest share of high‑balance
 
 Across all regions, arrears are skewed toward lower balances, but the severity profile differs.
 
+
 <img width="1153" height="641" alt="image" src="https://github.com/user-attachments/assets/3dd5222f-73f6-4eb1-bb6c-086d865474c0" />
 
 Figure 3. Region A distribution - histogram.
+
 
 <img width="1152" height="640" alt="image" src="https://github.com/user-attachments/assets/672b34ac-d387-496f-94e4-2a4ec786e132" />
 
 Figure 4. Region B distribution - histogram.
 
+
 <img width="1157" height="637" alt="image" src="https://github.com/user-attachments/assets/c80fb839-d7f2-4081-a579-d04d44d0361d" />
 
 Figure 5. Region C distribution - histogram.
+
 
 ### 5.3 Trends Over Time (All Regions)
 The combined and regional trend lines show:
@@ -416,6 +421,7 @@ The combined and regional trend lines show:
 - Regions B and C show more stable month‑to‑month behaviour, with fewer extreme movements.
 
 Overall, arrears pressures have stabilised after earlier volatility.
+
 
 <img width="1167" height="647" alt="image" src="https://github.com/user-attachments/assets/b15b5611-cbdd-4c07-9f25-39b99608abf8" />
 
@@ -429,6 +435,7 @@ Across all regions:
 - Shorter tenancies (1-2 years) show higher arrears, indicating early‑stage vulnerability.
 
 Demographics reveal clear behavioural differences in arrears risk.
+
 
 <img width="1146" height="647" alt="image" src="https://github.com/user-attachments/assets/786b1b73-05d9-4545-849e-b80fd942ffdd" />
 
@@ -444,6 +451,7 @@ Payment type is one of the strongest predictors of arrears:
 
 Payment method strongly correlates with arrears severity.
 
+
 <img width="1176" height="646" alt="image" src="https://github.com/user-attachments/assets/67c3fcb4-6e57-42e7-b2b7-88038cf9f227" />
 
 Figure 8. Payer type data. Clustered column charts (total and median arrears) + donut chart (payment type) + clustered bar chart (number of tenancies in arrears).
@@ -456,6 +464,7 @@ Demographic data quality is strong and consistent:
 - Age band availability is ~99.5%, and tenancy length availability is 100%, ensuring reliable demographic analysis.
 
 Data quality supports confident interpretation of demographic insights.
+
 
 <img width="1177" height="647" alt="image" src="https://github.com/user-attachments/assets/e6adfe09-c319-4333-bfd7-d0fe326f17e5" />
 
