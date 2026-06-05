@@ -474,7 +474,8 @@ Figure 9. Demographic data quality.
 This section outlines the known constraints of the current arrears dashboard and identifies opportunities for future enhancement. It helps readers understand what the model does well, where caution is needed, and how the solution could evolve.
 
 ### 6.1 Current Limitations
-**- Staggered reporting dates ** 
+
+**- Staggered reporting dates** 
 Each region reports on different dates. This ensures freshness but makes direct cross‑region comparisons less precise.
 
 **- No household‑level segmentation**  
