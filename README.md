@@ -470,6 +470,56 @@ Data quality supports confident interpretation of demographic insights.
 
 Figure 9. Demographic data quality.
 
+## 6. Limitations & Future Work
+This section outlines the known constraints of the current arrears dashboard and identifies opportunities for future enhancement. It helps readers understand what the model does well, where caution is needed, and how the solution could evolve.
+
+### 6.1 Current Limitations
+**- Staggered reporting dates ** 
+Each region reports on different dates. This ensures freshness but makes direct cross‑region comparisons less precise.
+
+**- No household‑level segmentation**  
+The model analyses tenancies, not households. Multi‑tenant households or shared tenancies are not separately identified.
+
+**- Limited demographic depth**  
+Only age band and tenancy length are included. Other factors (employment status, household size, vulnerability indicators) are not available.
+
+**- Payment type categories are broad**  
+UC, HB, DD and payer categories are high‑level and do not capture nuances such as payment reliability or changes over time.
+
+**- Arrears distribution capped at tenancy level**  
+The histogram shows balance distribution but does not break down by arrears type (e.g., rent vs service charges).
+
+**- Data quality exclusions**  
+Around 12% of tenancies are excluded due to non‑unique demographic records. While availability is high, this still reduces completeness.
+
+**- No predictive modelling**  
+The dashboard is descriptive only. It does not forecast arrears or identify risk drivers statistically. Original work, with real-world data, included a predictive model, however this was not built for synthetic dataset.
+
+6.2 Future Work
+**- Introduce forecasting**  
+Add time‑series models to predict arrears levels and identify emerging risks.
+
+**- Enhance demographic segmentation ** 
+Incorporate additional attributes (household composition, income bands, support needs) where available.
+
+**- Add cohort tracking**  
+Follow groups of tenants over time to understand arrears progression and recovery patterns.
+
+**- Improve payment type granularity**  
+Break down UC and HB into sub‑categories (e.g., managed payments, APA, partial awards).
+
+**- Introduce arrears type breakdown**  
+Separate rent, service charges, court costs, and other arrears to improve operational insight.
+
+**- Add intervention outcomes**  
+Link arrears to actions taken (e.g., payment plans, support referrals) to measure effectiveness.
+
+**- Automate data quality diagnostics**  
+Provide alerts for missing demographics, unusual spikes, or inconsistent reporting periods.
+
+**- Enable cross‑region benchmarking**  
+Standardise reporting dates or introduce normalised comparison metrics.
+
 
 
 
